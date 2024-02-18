@@ -2,11 +2,11 @@ import pytest
 import requests
 import jsonschema
 
+from config import URL
 from utils.load_schema import load_schema
 
-URL = 'https://reqres.in/'
 
-
+@pytest.mark.api
 class TestRegisterUser:
     @pytest.mark.parametrize('email, password, status_code',
                              [('eve.holt@reqres.in', 'pistol', 200),
@@ -20,4 +20,4 @@ class TestRegisterUser:
 
         assert response.status_code == status_code
         data = response.json()
-        jsonschema.validate(data, load_schema('../schema/register.json'))
+        jsonschema.validate(data, load_schema('register.json'))

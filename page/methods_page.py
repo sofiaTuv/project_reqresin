@@ -20,4 +20,3 @@ class MethodsPage(BasePage):
     def response_content(self):
         content = self.browser.find_element(By.CSS_SELECTOR, '[data-key="output-response"]')
         return content.text
-

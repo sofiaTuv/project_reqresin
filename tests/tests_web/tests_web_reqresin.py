@@ -1,13 +1,13 @@
 import jsonschema
 import json
+import pytest
+from config import URL
 from page.methods_page import MethodsPage
 from utils.load_schema import load_schema
 
-URL = 'https://reqres.in/'
 
-
+@pytest.mark.web
 class TestsWeb:
-
     def test_get_list_users_web(self, browser):
         browser.get(URL)
         page = MethodsPage(browser)
@@ -16,4 +16,3 @@ class TestsWeb:
         assert page.response_code() == '200'
         content = page.response_content()
         jsonschema.validate(json.loads(content), load_schema('get_list_users.json'))
-

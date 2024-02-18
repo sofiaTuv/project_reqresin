@@ -2,11 +2,11 @@ import pytest
 import requests
 import jsonschema
 
+from config import URL
 from utils.load_schema import load_schema
 
-URL = 'https://reqres.in/'
 
-
+@pytest.mark.api
 class TestUsersApi:
     @pytest.mark.parametrize('page', [(2)])
     @pytest.mark.get_list
@@ -16,7 +16,7 @@ class TestUsersApi:
 
         assert response.status_code == 200
         data = response.json()
-        jsonschema.validate(data, load_schema('../schema/get_list_users.json'))
+        jsonschema.validate(data, load_schema('get_list_users.json'))
         assert data['page'] == page
         assert len(data['data']) == per_page
 
@@ -41,7 +41,7 @@ class TestUsersApi:
         data = response.json()
         assert data['name'] == name
         assert data['job'] == job
-        jsonschema.validate(data, load_schema('../schema/create_user.json'))
+        jsonschema.validate(data, load_schema('create_user.json'))
 
     @pytest.mark.parametrize('name, job', [('morpheus', 'zion resident')])
     @pytest.mark.update
@@ -55,7 +55,7 @@ class TestUsersApi:
         data = response.json()
         assert data['name'] == name
         assert data['job'] == job
-        jsonschema.validate(data, load_schema('../schema/update_user.json'))
+        jsonschema.validate(data, load_schema('update_user.json'))
 
     @pytest.mark.delete
     def test_delete_user(self):
